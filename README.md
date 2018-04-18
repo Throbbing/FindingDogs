@@ -19,11 +19,14 @@
 # 编译
 
 -  当前仅支持Windows平台使用VS2013编译
--  Clone引擎源代码，Clone此项目源代码，自行编译对应的库，将此文件放到引擎根目录中，打开引擎项目编译
+-  Clone引擎源代码，Clone此项目源代码，编译对应的库，将此文件放到引擎根目录中，打开引擎VS项目编译
 
    
 # 截图
 
 
-![](https://github.com/wubugui/WIPReborn/raw/master/example/1.png)
-![](https://github.com/wubugui/FXXKTracer/raw/master/pic/ll.gif)
+![](https://github.com/wubugui/FXXKTracer/raw/master/pic/game/5.png)
+![](https://github.com/wubugui/FXXKTracer/raw/master/pic/game/4.png)
+![](https://github.com/wubugui/FXXKTracer/raw/master/pic/game/3.png)
+![](https://github.com/wubugui/FXXKTracer/raw/master/pic/game/2.png)
+![](https://github.com/wubugui/FXXKTracer/raw/master/pic/game/1.png)
