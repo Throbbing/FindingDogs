@@ -400,16 +400,16 @@ void FDLevelLoader::load_caodi(const RBVector2& postion)
 		man_trans1->set_anchor(0.f, 0.f);
 		man_trans1->set_tag("eat_peopel");
 		man_trans1->set_type_tag("trigger");
-		TransformComponent* tc1 = (TransformComponent*)WIPObject::create_tick_component("TransformComponent", man_trans1);
+		EventComponent* tc1 = (EventComponent*)WIPObject::create_tick_component("TransformComponent", man_trans1);
 
 
 
 
 
-		tc1->func_end = [](void* data, const WIPSprite* s, TransformComponent* t)->void
-		{
-			t->send_event(get_string_hash("player"));
-		};
+		//tc1->func_end = [](void* data, const WIPSprite* s, TransformComponent* t)->void
+		//{
+			//t->send_event(get_string_hash("player"));
+		//};
 		auto* data = new NPCTalkParam();
 		auto* npcdata = new NPCDisplayData();
 
@@ -448,9 +448,9 @@ void FDLevelLoader::load_caodi(const RBVector2& postion)
 		};
 
 		tc1->call_data[CONTACT_EVENT] = as;
-		tc1->func_contact = [](void* data1, const WIPSprite* s, float dt, TransformComponent* t)->void
+		tc1->func_contact_1 = [as](void* data1, const WIPSprite* s, float dt, TransformComponent* t)->void
 		{
-			ActionSet* data = (ActionSet*)data1;
+			ActionSet* data = as;
 			MapComponent* map_component = t->map_component;
 			{
 				bool r;
@@ -478,10 +478,10 @@ void FDLevelLoader::load_caodi(const RBVector2& postion)
 			g_input_manager->restore_eat();
 		};
 
-		tc1->func_end = [](void* da, const WIPSprite* s, TransformComponent* t)
-		{
-			g_action_runner->end_run_action();
-		};
+		//tc1->func_end = [](void* da, const WIPSprite* s, TransformComponent* t)
+		//{
+			//g_action_runner->end_run_action();
+		//};
 		man_trans1->add_tick_component(tc1);
 
 		scene->load_sprite(man_trans1);
@@ -656,17 +656,95 @@ void FDLevelLoader::load_huangdi(const RBVector2& postion)
 		man_c1->set_z_order(0.4f);
 		woman = man_c1;
 
-		NPCComponent* npcc = (NPCComponent*)WIPObject::create_tick_component("NPCComponent", man_c1);
-		npcc->words[0].push(L"我刚才明明看见我的狗从这里走上去...");
-		npcc->words[0].push(L"一回头她就不见了...");
-		npcc->words[0].push(L"难道是幻觉？");
-		npcc->words[0].push(L"......");
+		EventComponent* tc1 = (EventComponent*)WIPObject::create_tick_component("EventComponent", man_c1);
+
+		auto* data = new NPCTalkParam();
+		auto* npcdata = new NPCDisplayData();
+
+		ActionSet* as = new ActionSet();
+		Actions* evt = new Actions();
+		evt->loop = true;
+		evt->put_action(new WaitTrigger());
+		evt->put_action(new TalkAc(L"年轻人，你是不是一直在这里走不出去?", npcdata, mc, tc1));
+		evt->put_action(new TalkAc(L"你是不是会莫名其妙地被挡住去路？", npcdata, mc, tc1));
+		evt->put_action(new TalkAc(L"你怕是碰见鬼打墙了...", npcdata, mc, tc1));
+		evt->put_action(new ChangeGameState(mc, GameState::E_PLAYER_CONTROLL));
+		as->acss.push_back(evt);
+
+		tc1->add_event_varible("t", Game_Varible(0.f));
+		tc1->add_event_varible("dx", Game_Varible(1.f));
+		tc1->add_event_varible("dy", Game_Varible(0.f));
 
 
-		man_c1->add_tick_component(npcc);
 
-		mc->subscribe_event(npcc, get_string_hash("npc talk"), WIP_EVENT_HANDLER_OUT(MapComponent, change_to_talk, mc));
-		mc->subscribe_event(npcc, get_string_hash("player"), WIP_EVENT_HANDLER_OUT(MapComponent, change_to_player, mc));
+		tc1->call_data[BEGIN_EVENT] = as;
+		tc1->func_begin = [](void* da, const WIPSprite* s, TransformComponent* t)
+		{
+			ActionSet* data = (ActionSet*)da;
+			{
+				g_action_runner->ready_run_action(data->acss[0]);
+			}
+		};
+
+		tc1->call_data[CONTACT_EVENT] = as;
+		tc1->func_contact = [](void* data1, const WIPSprite* s, float dt, TransformComponent* t)->void
+		{
+			ActionSet* data = (ActionSet*)data1;
+			MapComponent* map_component = t->map_component;
+			{
+				{
+					g_action_runner->run_action(data->acss[0], dt);
+				}
+
+			}
+			g_input_manager->restore_eat();
+		};
+
+		tc1->func_update = [](void* da, float dt, TransformComponent* t)
+		{
+			//npc update event 
+			///!!todo:bound motion range
+			///!!todo:bound by level block
+			WIPSprite* sp = t->host_object;
+
+			float& st = t->event_varible["t"].number.real;
+			float& sx = t->event_varible["dx"].number.real;
+			float& sy = t->event_varible["dy"].number.real;
+			st += dt;
+			if (st > 1.523f)
+			{
+				st = 0.f;
+				int i = RBMath::get_rand_i(4);
+				switch (i)
+				{
+				case 0:
+					sx = 1.f; sy = 0.f;
+					sp->_animation->play_name("walk_left",true);
+					break;
+				case 1:
+					sx = 0.f; sy = 1.f; 
+					sp->_animation->play_name("walk_up", true);
+					break;
+				case 2:
+					sx = -1.f; sy = 0.f; 
+					sp->_animation->play_name("walk_right", true);
+					break;
+				case 3:
+					sx = 0.f; sy = -1.f; 
+					sp->_animation->play_name("walk_down", true);
+					break;
+				default:
+					break;
+				}
+			}
+			RBVector2 speed(sx,sy);
+			speed *= dt;
+			sp->translate(speed.x, speed.y);
+		};
+		man_c1->add_tick_component(tc1);
+
+		mc->subscribe_event(tc1, get_string_hash("npc talk"), WIP_EVENT_HANDLER_OUT(MapComponent, change_to_talk, mc));
+		mc->subscribe_event(tc1, get_string_hash("player"), WIP_EVENT_HANDLER_OUT(MapComponent, change_to_player, mc));
 	}
 	WIPSprite* huyao;
 	{

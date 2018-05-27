@@ -79,6 +79,8 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalOptions>/I"C:\EngineNew\src\RBMath\Inc" /I"C:\EngineNew\src\RBMath\Inc\Platform" /I"C:\EngineNew\src" /I"C:\EngineNew\src\thirdpart" /I"C:\EngineNew\src\Platform" /I"C:\EngineNew\src\flyUI" /I"C:\EngineNew\src\SoftR" /I"C:\EngineNew\libs\glfw\include\GLFW" /I"C:\EngineNew\src\thirdpart\glad\include\glad" /I"C:\EngineNew\src\thirdpart\glad\include\KHR" /I"C:\EngineNew\src\thirdpart\Box2D" /I"C:\EngineNew\libs\FreeImage\include" /I"C:\EngineNew\libs\freetype" /I"C:\EngineNew\libs\freetype\include" /I"C:\EngineNew\libs\fmod_studio\inc" /I"C:\EngineNew\libs\fmod_lowlevel\inc" /I"C:\EngineNew\lib\fmod_fsbank\inc" /I"C:\EngineNew\src\thirdpart\imgui" /I"C:\EngineNew\src\thirdpart\Remotery\lib" /I"C:\EngineNew\src\OpenGL" %(AdditionalOptions)</AdditionalOptions>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <AdditionalDependencies>..\libs\wip\debug\wip_engine.lib;..\libs\glfw\lib\win32\glfw3.lib;..\libs\FreeImage\lib\win32\freeimage.lib;..\libs\FreeImage\lib\win32\jpeg.lib;..\libs\FreeImage\lib\win32\mng.lib;..\libs\FreeImage\lib\win32\openexr.lib;..\libs\FreeImage\lib\win32\openjpeg.lib;..\libs\FreeImage\lib\win32\png.lib;..\libs\FreeImage\lib\win32\rawlite.lib;..\libs\FreeImage\lib\win32\tiff.lib;..\libs\FreeImage\lib\win32\zlib.lib;..\libs\lua523\lib\win32\lua.lib;..\libs\freetype\lib\freetype.lib;..\libs\fmod_fsbank\lib\fsbank_vc.lib;..\libs\fmod_lowlevel\lib\fmod_vc.lib;..\libs\fmod_studio\lib\fmodstudio_vc.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -119,12 +121,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="EditorApp.cpp" />
     <ClCompile Include="GameAction.cpp" />
     <ClCompile Include="GameApp.cpp" />
     <ClCompile Include="FDGameComponent.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EditorApp.h" />
     <ClInclude Include="GameAction.h" />
     <ClInclude Include="GameApp.h" />
     <ClInclude Include="FDGameComponent.h" />

@@ -49,3 +49,5 @@ libs/lua523
 libs/src
 *.vssettings
 Debug
+Release
+My Amplifier XE Results*

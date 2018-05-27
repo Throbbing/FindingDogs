@@ -16,6 +16,9 @@
     <Filter Include="Components">
       <UniqueIdentifier>{d5ea51bb-f9e0-4ec8-b5ad-b4eb60cbe535}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Editor">
+      <UniqueIdentifier>{80681943-95ed-4f07-80f1-08563b7eed2c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameApp.cpp">
@@ -30,6 +33,12 @@
     <ClCompile Include="FDGameComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorApp.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameApp.h">
@@ -43,6 +52,9 @@
     </ClInclude>
     <ClInclude Include="FDGameComponent.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorApp.h">
+      <Filter>Editor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

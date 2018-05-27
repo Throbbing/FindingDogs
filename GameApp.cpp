@@ -41,4 +41,4 @@ bool FDGame::init()
 	}
 
 
-MAKE_APP(FDGame)
+

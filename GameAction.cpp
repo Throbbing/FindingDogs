@@ -785,3 +785,20 @@ bool Wait::doing(float dt)
 void Wait::init(float dt)
 {
 }
+
+bool ImmediateAction::run(float dt)
+{
+	if (end)
+		return true;
+	if (!begin)
+	{
+		init(dt);
+		begin = true;
+	}
+	if (doing(dt))
+	{
+		end = true;
+		return true;
+	}
+	return false;
+}

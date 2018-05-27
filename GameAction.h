@@ -245,6 +245,21 @@ struct SetGameVaribleText : public Ac
 
 };
 
+struct ImmediateAction :public Ac
+{
+	ImmediateAction() {}
+	bool run(float dt) final;
+	virtual bool doing(float dt) = 0;
+	virtual void init(float dt) = 0;
+};
+
+struct SetCharacterState : public ImmediateAction
+{
+	SetCharacterState();
+	virtual bool doing(float dt);
+	void init(float dt);
+};
+
 
 #include <stack>
 #include <queue>

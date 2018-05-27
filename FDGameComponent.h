@@ -11,6 +11,7 @@
 #include "ScriptManager.h"
 #include <queue>
 #include "GameAction.h"
+#include <functional>
 #ifdef ML
 #include "./tiny_dnn/tiny_dnn.h"
 
@@ -348,7 +349,7 @@ public:
 #define END_EVENT 3
 #define LEVEL_START 4
 #define LEVEL_END 5
-
+#define COMP_INIT 6
 
 
 class TransformComponent : public WIPTickComponent
@@ -385,9 +386,30 @@ public:
 	void(*func_update)(void*, float, TransformComponent* t) = 0;
 	void(*func_level_start)(void*, TransformComponent* t) = 0;
 	void(*func_level_end)(void*, TransformComponent* t) = 0;
+	void(*func_comp_init)(void*, TransformComponent* t) = 0;
 
+	std::function<void(void*, const WIPSprite*, float, TransformComponent* t)> func_contact_1;
+	void add_event_varible(const std::string& name,Game_Varible init_val);
+	std::map<std::string, Game_Varible> event_varible;
+};
 
+//手动添加Actions，离开自动删除重置，contact之后自动禁用update，end contact后自动启用update
+class EventComponent : public TransformComponent
+{
+public:
+public:
+	WIPTICKCOMPONENT(EventComponent);
+	WIPOBJECT(EventComponent, TransformComponent);
+	WIP_MEM(EventComponent);
+	EventComponent(WIPSprite*  s);
+	~EventComponent();
+	void on_begin_contact(const WIPSprite* s);
+	void on_end_contact(const WIPSprite* s);
+	void on_contact(const WIPSprite* s, float dt);
+	void update(f32 dt);
+	bool running = false;
 
+	
 };
 
 

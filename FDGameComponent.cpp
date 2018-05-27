@@ -12,6 +12,7 @@ void regist_user_component()
 	MapComponent::register_tick_component();
 	NPCComponent::register_tick_component();
 	TransformComponent::register_tick_component();
+	EventComponent::register_tick_component();
 	//EnemeyComponent::register_tick_component();
 	//PlayerComponent::register_tick_component();
 	//BulletComponent::register_tick_component();
@@ -524,7 +525,7 @@ void MapComponent::update(f32 dt)
 		{
 			game_state = GameState::E_UI;
 		}
-		float speed = 3.2f;
+		float speed = 13.2f;
 		if (Input::get_key_pressed(WIP_W))
 		{
 			man->translate(0, speed*dt);
@@ -1756,6 +1757,8 @@ void TransformComponent::init()
 	if (s)
 		map_component = (MapComponent*)s->get_component<MapComponent>();
 
+	if (func_comp_init)
+		func_comp_init(call_data[COMP_INIT],this);
 
 }
 void TransformComponent::update(f32 dt)
@@ -1793,6 +1796,8 @@ void TransformComponent::on_contact(const WIPSprite* s, float dt)
 	//g_scene->load_level(id,pos);
 	if (func_contact)
 		func_contact(call_data[2], s, dt, this);
+	if (func_contact_1)
+		func_contact_1(call_data[2],s,dt,this);
 	return;
 }
 
@@ -1807,4 +1812,44 @@ void TransformComponent::end()
 {
 	if (func_level_end)
 		func_level_end(call_data[LEVEL_END], this);
+}
+
+void TransformComponent::add_event_varible(const std::string & name, Game_Varible init_val)
+{
+	event_varible[name] = init_val;
+}
+
+EventComponent::EventComponent(WIPSprite * s):TransformComponent(s)
+{
+}
+
+EventComponent::~EventComponent()
+{
+}
+
+void EventComponent::on_begin_contact(const WIPSprite * s)
+{
+	running = true;
+	if (func_begin)
+		func_begin(call_data[1], s, this);
+}
+
+void EventComponent::on_end_contact(const WIPSprite * s)
+{
+	running = false;
+	g_action_runner->end_run_action();
+	if (func_end)
+		func_end(call_data[3], s, this);
+}
+
+void EventComponent::on_contact(const WIPSprite * s, float dt)
+{
+	if (func_contact)
+		func_contact(call_data[2], s, dt, this);
+}
+
+void EventComponent::update(f32 dt)
+{
+	if (!running&&func_update)
+		func_update(call_data[0], dt, this);
 }
