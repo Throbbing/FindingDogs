@@ -37,7 +37,7 @@ bool FDGame::init()
 		g_audio_manager->LoadBank("./audio/Desktop/master bank.bank", false);
 		g_audio_manager->LoadBank("./audio/Desktop/master bank.strings.bank", false);
 		g_scene->loader->init_game();
-		g_scene->loader->load_level(1, RBVector2(6.6f, -12.6f));
+		g_scene->loader->load_level(0, RBVector2(6.6f, -12.6f));
 	}
 
 

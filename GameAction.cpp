@@ -1,6 +1,6 @@
 #pragma once
 #include "GameAction.h"
-#include "FDGameComponent.h"
+#include "CharacterComponents.h"
 #include "Camera.h"
 #include "Logger.h"
 //actions
@@ -573,6 +573,7 @@ void ActionRunner::end_run_action()
 	begin_run = false;
 }
 
+//todo : move to main code
 ActionRunner* g_action_runner = ActionRunner::get_instance();
 
 Actions::Actions(int pages)
@@ -598,12 +599,12 @@ void Actions::next_action()
 
 }
 
-WaitTrigger::WaitTrigger()
+WaitTriggerPushKey::WaitTriggerPushKey()
 {
 
 }
 
-bool WaitTrigger::run(float dt)
+bool WaitTriggerPushKey::run(float dt)
 {
 	if (end)
 		return true;
@@ -620,18 +621,18 @@ bool WaitTrigger::run(float dt)
 	return false;
 }
 
-bool WaitTrigger::doing(float dt)
+bool WaitTriggerPushKey::doing(float dt)
 {
 	if (Input::eat_sys_key_down(WIP_SPACE))
 	{
 		end = true;
 		return true;
 	}
-	time + dt;
+	time += dt;
 	return false;
 }
 
-void WaitTrigger::init(float dt)
+void WaitTriggerPushKey::init(float dt)
 {
 }
 
@@ -801,4 +802,59 @@ bool ImmediateAction::run(float dt)
 		return true;
 	}
 	return false;
+}
+
+ChangeObjectCallbackState::ChangeObjectCallbackState(WIPSprite* sp, CALLBACKTYPE ctp,bool c)
+{
+	s = sp;
+	tp = ctp;
+	val = c;
+}
+
+bool ChangeObjectCallbackState::doing(float dt)
+{
+	switch (tp)
+	{
+	case PLAY_BEGINCONTACT:
+		evc->set_onbegincontact(val);
+		break;
+	case PLAY_ONCONTACT:
+		evc->set_oncontact(val);
+		break;
+	case PLAY_ENDCONTACT:
+		evc->set_onendcontact(val);
+		break;
+	case PLAY_UPDATE:
+		evc->set_update(val);
+		break;
+	default:
+		break;
+	}
+	return true;
+}
+
+void ChangeObjectCallbackState::init(float dt)
+{
+	evc = (EventComponent*)s->get_component_by_name("EventComponent");
+}
+
+void SetCharacterState::init(float dt)
+{
+}
+
+ChangeCharracterAIControllState::ChangeCharracterAIControllState(WIPSprite * ts, bool v)
+	:s(ts),val(v)
+{}
+
+bool ChangeCharracterAIControllState::doing(float dt)
+{
+	evc->actived = val;
+	if(!val)
+		evc->play_stand_animation();
+	return false;
+}
+
+void ChangeCharracterAIControllState::init(float dt)
+{
+	evc = (CharacterAIControll*)s->get_component<CharacterAIControll>();
 }

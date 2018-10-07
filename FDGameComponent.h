@@ -178,8 +178,21 @@ public:
 };
 
 
+/*
+class EditComponent :public WIPTickComponent
+{
+public:
+	WIPTICKCOMPONENT(EditComponent);
+	WIPOBJECT(EditComponent, WIPTickComponent);
+	WIP_MEM(EditComponent);
+	EditComponent(WIPSprite*  s) :WIPTickComponent(s)
+	{
 
+	}
+	~EditComponent() {}
 
+};
+*/
 
 
 class MapComponent : public WIPTickComponent
@@ -215,6 +228,13 @@ public:
 			man->translate_to(old_pos.x, old_pos.y);
 		}
 	}
+	void fix_sprite_position(WIPSprite* charater, RBVector2& old_pos)
+	{
+		if (1 == grid->get_position_state(charater->_transform->world_x, charater->_transform->world_y))
+		{
+			charater->translate_to(old_pos.x, old_pos.y);
+		}
+	}
 	void init();
 	void destroy();
 	void update(f32 dt);
@@ -232,7 +252,7 @@ public:
 	float alpha_s = 1.f;
 	float alpha = 1.f;
 
-	std::vector<class Ac*> actions;
+	std::vector<struct Ac*> actions;
 
 	WIPSprite*  man;
 	WIPSprite*  fogs;
@@ -265,12 +285,8 @@ public:
 	int old_ms=0;
 
 	UIRender* ui_renderer;
-	//#define Text1
-#ifdef Text1
-	class LargeTexture_TextRender* text_renderer;
-#else
 	class TextRender* text_renderer;
-#endif
+
 
 	bool edit_mode;
 
@@ -397,7 +413,6 @@ public:
 class EventComponent : public TransformComponent
 {
 public:
-public:
 	WIPTICKCOMPONENT(EventComponent);
 	WIPOBJECT(EventComponent, TransformComponent);
 	WIP_MEM(EventComponent);
@@ -407,9 +422,33 @@ public:
 	void on_end_contact(const WIPSprite* s);
 	void on_contact(const WIPSprite* s, float dt);
 	void update(f32 dt);
+
+	void set_onbegincontact(bool enable)
+	{
+		enable ? (callback_state |= 0x1) : (callback_state &= 0xfe);
+	}
+
+	void set_oncontact(bool enable)
+	{
+		enable ? (callback_state |= 0x2) : (callback_state &= 0xfd);
+	}
+
+	void set_onendcontact(bool enable)
+	{
+		enable ? (callback_state |= 0x4) : (callback_state &= 0xfb);
+	}
+
+	void set_update(bool enable)
+	{
+		enable ? (callback_state |= 0x8) : (callback_state &= 0xf7);
+	}
+
+	//no use plz set callback label abviously
 	bool running = false;
 
-	
-};
+private:
+	//[high]|update|end_contact|on_contact|begin_contact|[low]
+	char callback_state = 0x0f;
 
+};
 

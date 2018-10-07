@@ -1,5 +1,5 @@
 #include "UIWrap.h"
-#include "FDGameComponent.h"
+#include "CharacterComponents.h"
 #include "imgui.h"
 #include "GameComponent.h"
 #include "GLFWApp.h"
@@ -13,6 +13,10 @@ void regist_user_component()
 	NPCComponent::register_tick_component();
 	TransformComponent::register_tick_component();
 	EventComponent::register_tick_component();
+	CharacterComponent::register_tick_component();
+	CharacterControll::register_tick_component();
+	CharacterPlayerControll::register_tick_component();
+	CharacterAIControll::register_tick_component();
 	//EnemeyComponent::register_tick_component();
 	//PlayerComponent::register_tick_component();
 	//BulletComponent::register_tick_component();
@@ -431,6 +435,9 @@ void MapComponent::update(f32 dt)
 	{
 	case GameState::E_UI:
 	{
+		send_event(get_string_hash("stop player controll"));
+		//send_event(get_string_hash("restore ai controll"));
+
 		g_temp_uisys->begin();
 		g_rhi->enable_blend();
 
@@ -499,6 +506,9 @@ void MapComponent::update(f32 dt)
 	break;
 	case GameState::E_TITLE:
 	{
+		send_event(get_string_hash("stop player controll"));
+		//send_event(get_string_hash("restore ai controll"));
+
 		g_temp_uisys->begin();
 		g_temp_uisys->draw_picture(1, 0, t_bg->get_width(), t_bg->get_height(), t_bg);
 		if (alpha >= 1.f || alpha <= 0.f)
@@ -518,6 +528,9 @@ void MapComponent::update(f32 dt)
 	break;
 	case GameState::E_PLAYER_CONTROLL:
 	{
+		send_event(get_string_hash("restore player controll"));
+		//send_event(get_string_hash("restore ai controll"));
+
 		g_temp_uisys->begin();
 		g_temp_uisys->draw_text(500, 550, L"【I】开启【茅山秘术】", wcslen(L"【I】开启【茅山秘术】"), 300);
 		g_temp_uisys->end();
@@ -525,6 +538,7 @@ void MapComponent::update(f32 dt)
 		{
 			game_state = GameState::E_UI;
 		}
+#if 0
 		float speed = 13.2f;
 		if (Input::get_key_pressed(WIP_W))
 		{
@@ -588,10 +602,14 @@ void MapComponent::update(f32 dt)
 			}
 
 		}
+#endif
 	}
 	break;
 	case GameState::E_TALK:
 	{
+		send_event(get_string_hash("stop player controll"));
+		//send_event(get_string_hash("stop ai controll"));
+
 		if (cur_npc_ui)
 		{
 			wchar_t *words1 = cur_npc_ui->words;
@@ -628,6 +646,8 @@ void MapComponent::update(f32 dt)
 	break;
 	case GameState::E_ACTION:
 	{
+		send_event(get_string_hash("stop player controll"));
+		//send_event(get_string_hash("stop ai controll"));
 		/*
 		man->_animation->play_name("stand_down", false);
 		g_temp_uisys->begin();
@@ -644,6 +664,10 @@ void MapComponent::update(f32 dt)
 	break;
 	case GameState::E_END:
 	{
+		
+		send_event(get_string_hash("stop player controll"));
+		//send_event(get_string_hash("restore ai controll"));
+
 		g_temp_uisys->begin();
 		g_temp_uisys->draw_picture(1, 0, end_tex->get_width(), end_tex->get_height(), end_tex);
 		if (alpha >= 1.f || alpha <= 0.f)
@@ -1829,27 +1853,28 @@ EventComponent::~EventComponent()
 
 void EventComponent::on_begin_contact(const WIPSprite * s)
 {
-	running = true;
-	if (func_begin)
+	if (func_begin && (callback_state & 0x1))
 		func_begin(call_data[1], s, this);
 }
 
 void EventComponent::on_end_contact(const WIPSprite * s)
 {
-	running = false;
-	g_action_runner->end_run_action();
-	if (func_end)
+	
+	if (func_end && (callback_state & 0x4))
 		func_end(call_data[3], s, this);
 }
 
 void EventComponent::on_contact(const WIPSprite * s, float dt)
 {
-	if (func_contact)
+	if (func_contact && (callback_state & 0x2))
 		func_contact(call_data[2], s, dt, this);
 }
 
 void EventComponent::update(f32 dt)
 {
-	if (!running&&func_update)
+	if (func_update && (callback_state & 0x8))
 		func_update(call_data[0], dt, this);
 }
+
+
+

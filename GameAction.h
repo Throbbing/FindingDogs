@@ -27,6 +27,9 @@ struct Ac
 	bool begin;
 	bool loop = false;
 };
+
+
+
 struct MovetoPlayer :public Ac
 {
 	MovetoPlayer(class WIPSprite* s, const std::string& ani, float speed);
@@ -204,9 +207,9 @@ struct Wait : public Ac
 };
 
 //for event triggered due to push button
-struct WaitTrigger : public Ac
+struct WaitTriggerPushKey : public Ac
 {
-	WaitTrigger();
+	WaitTriggerPushKey();
 	bool run(float dt);
 	virtual bool doing(float dt);
 	void init(float dt);
@@ -253,6 +256,51 @@ struct ImmediateAction :public Ac
 	virtual void init(float dt) = 0;
 };
 
+enum CALLBACKTYPE
+{
+	PLAY_BEGINCONTACT,
+	PLAY_ONCONTACT,
+	PLAY_ENDCONTACT,
+	PLAY_UPDATE,
+};
+
+
+struct ChangeObjectCallbackState : public ImmediateAction
+{
+	ChangeObjectCallbackState(WIPSprite* s, CALLBACKTYPE ctp,bool v);
+	virtual bool doing(float dt);
+	void init(float dt);
+
+	class WIPSprite* s = 0;
+	class EventComponent* evc = 0;
+	CALLBACKTYPE tp;
+	bool val;
+};
+
+struct ChangeCharracterAIControllState : public ImmediateAction
+{
+	ChangeCharracterAIControllState(WIPSprite* s, bool v);
+	virtual bool doing(float dt);
+	void init(float dt);
+
+	class WIPSprite* s = 0;
+	class CharacterAIControll* evc = 0;
+	bool val;
+};
+
+
+/*
+struct SaveCameraState : public ImmediateAction
+{
+	class WIPCamera* cam;
+	
+};
+
+struct RestoreCameraState : public ImmediateAction
+{
+
+};
+*/
 struct SetCharacterState : public ImmediateAction
 {
 	SetCharacterState();

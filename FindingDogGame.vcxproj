@@ -121,18 +121,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CharacterComponents.cpp" />
+    <ClCompile Include="Character\GameCharacter.cpp" />
     <ClCompile Include="EditorApp.cpp" />
     <ClCompile Include="GameAction.cpp" />
     <ClCompile Include="GameApp.cpp" />
     <ClCompile Include="FDGameComponent.cpp" />
+    <ClCompile Include="GameSystem\GameSystem.cpp" />
+    <ClCompile Include="GameSystem\YRScript.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="test_level.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CharacterComponents.h" />
+    <ClInclude Include="Character\GameCharacter.h" />
     <ClInclude Include="EditorApp.h" />
+    <ClInclude Include="EditorObject.h" />
     <ClInclude Include="GameAction.h" />
     <ClInclude Include="GameApp.h" />
     <ClInclude Include="FDGameComponent.h" />
+    <ClInclude Include="GameSystem\GameSystem.h" />
+    <ClInclude Include="GameSystem\YRScript.h" />
     <ClInclude Include="LevelLoader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

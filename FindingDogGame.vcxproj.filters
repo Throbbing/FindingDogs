@@ -1,14 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
@@ -19,33 +11,62 @@
     <Filter Include="Editor">
       <UniqueIdentifier>{80681943-95ed-4f07-80f1-08563b7eed2c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{914c03f2-f76e-4f4e-a328-cc50b5dd88d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Loader">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="GameSystem">
+      <UniqueIdentifier>{fd3f7a36-1e85-41ac-b563-7fd9684dfb62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Character">
+      <UniqueIdentifier>{811ae334-3f39-494e-85eb-ef7a2f605532}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Character">
+      <UniqueIdentifier>{d383b765-e208-44ae-833b-d6683adb2da3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States">
+      <UniqueIdentifier>{354fe98d-2507-4430-b7aa-2e6a7b31561b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GameApp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GameAction.cpp">
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="FDGameComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="EditorApp.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
+    <ClCompile Include="GameApp.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelLoader.cpp">
+      <Filter>Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="GameSystem\GameSystem.cpp">
+      <Filter>GameSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Character\GameCharacter.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSystem\YRScript.cpp">
+      <Filter>GameSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterComponents.cpp">
+      <Filter>Components\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="test_level.cpp">
+      <Filter>Loader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameApp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="LevelLoader.h">
-      <Filter>Header Files</Filter>
+      <Filter>Loader</Filter>
     </ClInclude>
     <ClInclude Include="GameAction.h">
       <Filter>Components</Filter>
@@ -55,6 +76,24 @@
     </ClInclude>
     <ClInclude Include="EditorApp.h">
       <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="GameApp.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorObject.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSystem\GameSystem.h">
+      <Filter>GameSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Character\GameCharacter.h">
+      <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSystem\YRScript.h">
+      <Filter>GameSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterComponents.h">
+      <Filter>Components\Character</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
